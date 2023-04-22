@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://bcftogoyybwc1"]
+
+[ext_resource type="Script" path="res://Scenes/Button.gd" id="1_atud8"]
+[ext_resource type="Texture2D" uid="uid://dm6y82duoy0a3" path="res://Assets/ButtonBase.png" id="2_nmred"]
+[ext_resource type="Texture2D" uid="uid://kqfbfamuy0bk" path="res://Assets/ButtonRed.png" id="3_wx443"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0ixrb"]
+size = Vector2(40, 4)
+
+[node name="Button" type="Node2D"]
+script = ExtResource("1_atud8")
+
+[node name="GrooveJoint2D" type="GrooveJoint2D" parent="."]
+position = Vector2(0, -17)
+node_a = NodePath("../StaticBody2D")
+node_b = NodePath("../RigidBody2D")
+length = 25.0
+initial_offset = 1.0
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+metadata/_edit_group_ = true
+
+[node name="ButtonBase" type="Sprite2D" parent="StaticBody2D"]
+texture = ExtResource("2_nmred")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_0ixrb")
+disabled = true
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+position = Vector2(0, -14)
+collision_layer = 8
+collision_mask = 8
+gravity_scale = 0.0
+continuous_cd = 2
+can_sleep = false
+lock_rotation = true
+metadata/_edit_group_ = true
+
+[node name="ButtonRed" type="Sprite2D" parent="RigidBody2D"]
+z_index = -2
+position = Vector2(8, 0)
+texture = ExtResource("3_wx443")
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="RigidBody2D"]
+position = Vector2(0.5, -2.5)
+polygon = PackedVector2Array(14.5, 12.5, 14.5, -4.5, 5.5, -14.5, -5.5, -14.5, -14.5, -4.5, -14.5, 12.5)
