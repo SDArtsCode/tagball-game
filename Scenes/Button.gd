@@ -10,10 +10,11 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if $RigidBody2D.position.y > $GrooveJoint2D.length + init_button_y - 4: # buffer zone
+	var rot_mult = Vector2(cos(rotation + PI/2), sin(rotation + PI/2))
+	if $RigidBody2D.position.y > $GrooveJoint2D.length + init_button_y - 6: # buffer zone
 		if connected_door: 
 			connected_door.active = true
 	else:
 		if connected_door: 
 			connected_door.active = false
-	$RigidBody2D.apply_central_impulse(Vector2(0.0, -100.0))
+	$RigidBody2D.apply_central_impulse(-50.0 * rot_mult)

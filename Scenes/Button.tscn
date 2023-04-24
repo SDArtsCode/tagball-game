@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bcftogoyybwc1"]
+[gd_scene load_steps=6 format=3 uid="uid://bcftogoyybwc1"]
 
 [ext_resource type="Script" path="res://Scenes/Button.gd" id="1_atud8"]
 [ext_resource type="Texture2D" uid="uid://dm6y82duoy0a3" path="res://Assets/ButtonBase.png" id="2_nmred"]
 [ext_resource type="Texture2D" uid="uid://kqfbfamuy0bk" path="res://Assets/ButtonRed.png" id="3_wx443"]
+[ext_resource type="Script" path="res://Assets/ShadowSprite2D.gd" id="4_k4wyu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0ixrb"]
 size = Vector2(40, 4)
@@ -28,20 +29,22 @@ shape = SubResource("RectangleShape2D_0ixrb")
 disabled = true
 
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
-position = Vector2(0, -14)
+position = Vector2(0, -13)
 collision_layer = 8
 collision_mask = 8
 gravity_scale = 0.0
 continuous_cd = 2
 can_sleep = false
 lock_rotation = true
-metadata/_edit_group_ = true
 
 [node name="ButtonRed" type="Sprite2D" parent="RigidBody2D"]
 z_index = -2
-position = Vector2(8, 0)
+position = Vector2(0, -3.541)
 texture = ExtResource("3_wx443")
+script = ExtResource("4_k4wyu")
+shadow_offset = Vector2(5, 5)
+shadow_opacity = 0.1
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="RigidBody2D"]
-position = Vector2(0.5, -2.5)
+position = Vector2(0.200001, -2.4)
 polygon = PackedVector2Array(14.5, 12.5, 14.5, -4.5, 5.5, -14.5, -5.5, -14.5, -14.5, -4.5, -14.5, 12.5)
