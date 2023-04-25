@@ -15,9 +15,9 @@ const SLIDE_RESET_TIME : float = 3.0
 var ball_in_area : RigidBody2D = null
 var ball : RigidBody2D = null
 
-var kp : float = 0.5
+var kp : float = 1.0
 var ki : float = 0.05
-var kd : float = 0.9
+var kd : float = 1.1
 var b_error : float = 0.0
 var b_prev_error : float = 0.0
 var b_pid_i : float = 0.0
@@ -84,9 +84,11 @@ func _integrate_forces(state):
 			$Rotate.rotation = lerp_angle($Rotate.rotation, atan2(dir.y, dir.x) - PI/2, state.step*8.0)
 		
 	ball_in_area = null
-	if $Rotate/RayCast2D.is_colliding():
-		if $Rotate/RayCast2D.get_collider().is_in_group('ball'):
-			ball_in_area = $Rotate/RayCast2D.get_collider()
+	for child in $Rotate/RayCasts.get_children():
+		if child.is_colliding():
+			if child.get_collider().is_in_group('ball'):
+				ball_in_area = child.get_collider()
+				break
 	if Input.is_action_just_pressed("pickup"):
 		if ball: # drop ball
 			drop_ball()
@@ -101,23 +103,27 @@ func _integrate_forces(state):
 		var total_error = ($Rotate/BallMarker.global_position - ball.global_position)
 		var total_pid = Vector2()
 		b_error = total_error.x
-		if abs(b_error) > PI/96:
+		if abs(b_error) > 10.0:
 			var pid_p = b_error * kp
 			var pid_d = kd * (b_error-b_prev_error)/state.step
 			var pid_pd = pid_p + pid_d
-			b_pid_i += b_error * ki
+			b_pid_i += b_error * ki * state.step
 			var pid = pid_pd + b_pid_i
 			total_pid.x = pid
+		else:
+			b_pid_i = 0.0
 		b_prev_error = b_error
 		# R
 		r_error = total_error.y
-		if abs(r_error) > PI/96:
+		if abs(r_error) > 10.0:
 			var pid_p = r_error * kp
 			var pid_d = kd * (r_error-r_prev_error)/state.step
 			var pid_pd = pid_p + pid_d
-			r_pid_i += r_error * ki
+			r_pid_i += r_error * ki * state.step
 			var pid = pid_pd + r_pid_i
 			total_pid.y = pid
+		else:
+			b_pid_i = 0.0
 		r_prev_error = r_error
 		ball.apply_central_impulse(total_pid)
 		$HasBallNoti.rotation += state.step * 0.5 * PI * 2

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bbhly61oyw4pk"]
+[gd_scene load_steps=18 format=3 uid="uid://bbhly61oyw4pk"]
 
 [ext_resource type="Script" path="res://Scenes/RigidPlayer.gd" id="1_s5a5p"]
 [ext_resource type="Texture2D" uid="uid://7vrgw2456xpl" path="res://Assets/GreenPlayerBody.png" id="2_lc3w4"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://b8hqb3sw35pet" path="res://Assets/DashProgressFront.png" id="6_jyecc"]
 [ext_resource type="Texture2D" uid="uid://buv3vbkfm6rgn" path="res://Assets/ArrowDown.png" id="7_of70a"]
 [ext_resource type="Texture2D" uid="uid://cjkcgtrqwdksi" path="res://Assets/HasBallNoti.png" id="7_r05y4"]
+[ext_resource type="Texture2D" uid="uid://dsig3cujvn1bb" path="res://Assets/GreenArm.png" id="9_k66e4"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ssg0e"]
 friction = 0.0
@@ -28,6 +29,35 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(-13, 24)]
+}
+
+[sub_resource type="Animation" id="Animation_lko7p"]
+resource_name = "idle"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rotate/GreenPlayerShoeRight:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(16, 10)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Rotate/GreenPlayerShoeLeft:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-15, 12)]
 }
 
 [sub_resource type="Animation" id="Animation_i7y5s"]
@@ -62,35 +92,6 @@ tracks/1/keys = {
 "values": [Vector2(-15, 12), Vector2(-15, 24), Vector2(-15, -21), Vector2(-15, 12)]
 }
 
-[sub_resource type="Animation" id="Animation_lko7p"]
-resource_name = "idle"
-length = 0.1
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Rotate/GreenPlayerShoeRight:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(16, 10)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Rotate/GreenPlayerShoeLeft:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-15, 12)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_esbi3"]
 _data = {
 "RESET": SubResource("Animation_lf7sn"),
@@ -98,6 +99,9 @@ _data = {
 "shuffle": SubResource("Animation_i7y5s"),
 "walking": SubResource("Animation_bsplw")
 }
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_jmk17"]
+viewport_path = NodePath("SubViewport")
 
 [node name="RigidPlayer" type="RigidBody2D"]
 collision_layer = 11
@@ -131,13 +135,53 @@ z_index = 3
 position = Vector2(0, -1)
 texture = ExtResource("2_lc3w4")
 script = ExtResource("3_grnkk")
-shadow_opacity = 0.1
+shadow_parent_path = NodePath("../../SubViewport")
+shadow_opacity = 1.0
 
 [node name="BallMarker" type="Marker2D" parent="Rotate"]
 position = Vector2(0, 41)
 
-[node name="RayCast2D" type="RayCast2D" parent="Rotate"]
-target_position = Vector2(0, 96)
+[node name="ShoulderLeft" type="Node2D" parent="Rotate"]
+position = Vector2(-19, -3)
+metadata/_edit_group_ = true
+
+[node name="Arm" type="Sprite2D" parent="Rotate/ShoulderLeft"]
+z_index = 4
+position = Vector2(-21, 0)
+rotation = 3.14159
+texture = ExtResource("9_k66e4")
+script = ExtResource("3_grnkk")
+shadow_parent_path = NodePath("../../../SubViewport")
+shadow_opacity = 1.0
+
+[node name="ShoulderRight" type="Node2D" parent="Rotate"]
+position = Vector2(21, -3)
+metadata/_edit_group_ = true
+
+[node name="Arm" type="Sprite2D" parent="Rotate/ShoulderRight"]
+z_index = 4
+position = Vector2(21, 0)
+texture = ExtResource("9_k66e4")
+script = ExtResource("3_grnkk")
+shadow_parent_path = NodePath("../../../SubViewport")
+shadow_opacity = 1.0
+
+[node name="RayCasts" type="Node2D" parent="Rotate"]
+
+[node name="RayCast2D" type="RayCast2D" parent="Rotate/RayCasts"]
+target_position = Vector2(0, 80)
+collision_mask = 2
+
+[node name="RayCast2D2" type="RayCast2D" parent="Rotate/RayCasts"]
+rotation = -0.349066
+scale = Vector2(1, 1)
+target_position = Vector2(0, 80)
+collision_mask = 2
+
+[node name="RayCast2D3" type="RayCast2D" parent="Rotate/RayCasts"]
+rotation = 0.349066
+scale = Vector2(1, 1)
+target_position = Vector2(0, 80)
 collision_mask = 2
 
 [node name="Timer" type="Timer" parent="."]
@@ -177,6 +221,32 @@ shape = SubResource("CircleShape2D_dbuii")
 [node name="HasBallNoti" type="Sprite2D" parent="."]
 visible = false
 texture = ExtResource("7_r05y4")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(200, 200)
+render_target_update_mode = 4
+
+[node name="TestPlayer2" type="Sprite2D" parent="SubViewport"]
+visible = false
+modulate = Color(0, 0, 0, 1)
+z_index = 3
+position = Vector2(40, 40)
+texture = ExtResource("2_lc3w4")
+
+[node name="TestPlayer3" type="Sprite2D" parent="SubViewport"]
+visible = false
+modulate = Color(0, 0, 0, 1)
+z_index = 3
+position = Vector2(40, 20)
+texture = ExtResource("2_lc3w4")
+
+[node name="ShadowsRenderer" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.25098)
+z_index = 2
+position = Vector2(0, -1)
+texture = SubResource("ViewportTexture_jmk17")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="body_exited" from="BallExitArea" to="." method="_on_ball_exit_area_body_exited"]

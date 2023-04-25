@@ -2,23 +2,23 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d4h6feo8nwij6"
-path="res://.godot/imported/DashProgressBack.png-de283e030745ddac4138ffcef72bcb52.ctex"
+uid="uid://buv3vbkfm6rgn"
+path="res://.godot/imported/ArrowDown.png-c55183ffb941f287fb08270a2ba7271c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/DashProgressBack.png"
-dest_files=["res://.godot/imported/DashProgressBack.png-de283e030745ddac4138ffcef72bcb52.ctex"]
+source_file="res://Assets/ArrowDown.png"
+dest_files=["res://.godot/imported/ArrowDown.png-c55183ffb941f287fb08270a2ba7271c.ctex"]
 
 [params]
 
 compress/mode=0
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=false

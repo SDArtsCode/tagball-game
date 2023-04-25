@@ -1,0 +1,91 @@
+[gd_scene load_steps=10 format=3 uid="uid://dbdghbybotxqe"]
+
+[ext_resource type="Texture2D" uid="uid://dnr2qbigrqmck" path="res://Assets/Tile.png" id="1_duixy"]
+[ext_resource type="PackedScene" uid="uid://bnuilw8q5ukjn" path="res://Scenes/Ball.tscn" id="3_7gu8y"]
+[ext_resource type="PackedScene" uid="uid://bbhly61oyw4pk" path="res://Scenes/RigidPlayer.tscn" id="4_xkohi"]
+[ext_resource type="PackedScene" uid="uid://bcftogoyybwc1" path="res://Scenes/Button.tscn" id="5_rts3a"]
+[ext_resource type="PackedScene" uid="uid://d3nbgcthr76ur" path="res://Scenes/Door.tscn" id="6_0drpf"]
+[ext_resource type="Texture2D" uid="uid://7m1prm3xrdxi" path="res://Assets/Tile2.png" id="7_cdt38"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kcgas"]
+friction = 0.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_se817"]
+texture = ExtResource("7_cdt38")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+
+[sub_resource type="TileSet" id="TileSet_2s5cc"]
+tile_size = Vector2i(64, 64)
+physics_layer_0/collision_layer = 4
+physics_layer_0/collision_mask = 4
+physics_layer_0/physics_material = SubResource("PhysicsMaterial_kcgas")
+sources/0 = SubResource("TileSetAtlasSource_se817")
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Bg" type="Node2D" parent="."]
+z_index = -11
+metadata/_edit_group_ = true
+
+[node name="TextureRect" type="TextureRect" parent="Bg"]
+offset_left = -496.0
+offset_top = -296.0
+offset_right = 2486.0
+offset_bottom = 1471.0
+texture = ExtResource("1_duixy")
+stretch_mode = 1
+
+[node name="TileMap" type="TileMap" parent="."]
+z_index = 1
+tile_set = SubResource("TileSet_2s5cc")
+format = 2
+layer_0/tile_data = PackedInt32Array(131099, 0, 0, 196635, 0, 0, 262171, 0, 0, 131098, 0, 0, 131097, 0, 0, 983067, 0, 0, 917531, 0, 0, 851995, 0, 0, 983066, 0, 0, 983065, 0, 0, 851970, 0, 0, 917506, 0, 0, 983042, 0, 0, 983043, 0, 0, 983044, 0, 0, 720912, 0, 0, 720913, 0, 0, 655377, 0, 0, 458769, 0, 0, 393233, 0, 0, 393232, 0, 0, 393229, 0, 0, 393228, 0, 0, 458764, 0, 0, 720908, 0, 0, 655372, 0, 0, 720909, 0, 0, 327702, 0, 0, 393238, 0, 0, 458774, 0, 0, 655382, 0, 0, 720918, 0, 0, 1048591, 0, 0, 1048592, 0, 0, 1048593, 0, 0, 655367, 0, 0, 458759, 0, 0, 393223, 0, 0, 327687, 0, 0, 786454, 0, 0, 131094, 0, 0, 983064, 0, 0, 983063, 0, 0, 983062, 0, 0, 720919, 0, 0, 720920, 0, 0, 393239, 0, 0, 393240, 0, 0, 917511, 0, 0, 983047, 0, 0, 655371, 0, 0, 655368, 0, 0, 1179648, 0, 0, 1179649, 0, 0, 1179650, 0, 0, 1179651, 0, 0, 1179652, 0, 0, 1179653, 0, 0, 1179654, 0, 0, 1179655, 0, 0, 1179656, 0, 0, 1179657, 0, 0, 1179658, 0, 0, 1179659, 0, 0, 1179660, 0, 0, 1179661, 0, 0, 1179662, 0, 0, 1179663, 0, 0, 1179664, 0, 0, 1179665, 0, 0, 1179666, 0, 0, 1179667, 0, 0, 1179668, 0, 0, 1179669, 0, 0, 1179670, 0, 0, 1179671, 0, 0, 1179672, 0, 0, 1179673, 0, 0, 1179674, 0, 0, 1179675, 0, 0, 1179676, 0, 0, 1179677, 0, 0, 1179678, 0, 0, 1114142, 0, 0, 1048606, 0, 0, 983070, 0, 0, 917534, 0, 0, 851998, 0, 0, 786462, 0, 0, 720926, 0, 0, 655390, 0, 0, 589854, 0, 0, 524318, 0, 0, 458782, 0, 0, 393246, 0, 0, 327710, 0, 0, 262174, 0, 0, 196638, 0, 0, 131102, 0, 0, 65566, 0, 0, 30, 0, 0, -65506, 0, 0, -65507, 0, 0, -65508, 0, 0, -65509, 0, 0, -65510, 0, 0, -65511, 0, 0, -65512, 0, 0, -65513, 0, 0, -65514, 0, 0, -65515, 0, 0, -65516, 0, 0, -65517, 0, 0, -65518, 0, 0, -65519, 0, 0, -65520, 0, 0, -65521, 0, 0, -65522, 0, 0, -65523, 0, 0, -65524, 0, 0, -65525, 0, 0, -65526, 0, 0, -65527, 0, 0, -65528, 0, 0, -65529, 0, 0, -65530, 0, 0, -65531, 0, 0, -65532, 0, 0, -65533, 0, 0, -65534, 0, 0, -65535, 0, 0, -65536, 0, 0, -1, 0, 0, 65535, 0, 0, 131071, 0, 0, 196607, 0, 0, 262143, 0, 0, 327679, 0, 0, 393215, 0, 0, 458751, 0, 0, 524287, 0, 0, 589823, 0, 0, 655359, 0, 0, 720895, 0, 0, 786431, 0, 0, 851967, 0, 0, 917503, 0, 0, 983039, 0, 0, 1048575, 0, 0, 1114111, 0, 0, 1179647, 0, 0, 1245183, 0, 0, 655362, 0, 0, 655363, 0, 0, 655364, 0, 0, 655365, 0, 0, 655366, 0, 0, 327682, 0, 0, 393218, 0, 0, 458754, 0, 0, 917512, 0, 0, 917515, 0, 0, 917516, 0, 0, 983052, 0, 0, 327683, 0, 0, 327684, 0, 0, 327685, 0, 0, 327686, 0, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 131079, 0, 0, 131082, 0, 0, 131083, 0, 0, 131084, 0, 0, 327692, 0, 0, 327697, 0, 0, 327698, 0, 0, 327699, 0, 0, 327700, 0, 0, 327701, 0, 0, 131093, 0, 0, 131092, 0, 0, 131091, 0, 0, 131090, 0, 0, 131089, 0, 0, 655378, 0, 0, 655381, 0, 0, 131085, 0, 0, 131086, 0, 0, 131087, 0, 0, 131088, 0, 0, 1114127, 0, 0, 1114128, 0, 0, 1114129, 0, 0, 983057, 0, 0, 786449, 0, 0, 327691, 0, 0, 327690, 0, 0, 655369, 0, 0, 655370, 0, 0, 1048590, 0, 0, 1048589, 0, 0, 1048588, 0, 0, 1114124, 0, 0, 1114125, 0, 0, 1114126, 0, 0, 720904, 0, 0, 786440, 0, 0, 851976, 0, 0, 589850, 0, 0, 524314, 0, 0, 1114112, 0, 0, 1114113, 0, 0, 1114114, 0, 0, 1114115, 0, 0, 1114116, 0, 0, 1114117, 0, 0, 1114118, 0, 0, 1114119, 0, 0, 1114120, 0, 0, 1114121, 0, 0, 1114122, 0, 0, 1114123, 0, 0, 1114130, 0, 0, 1114131, 0, 0, 1114132, 0, 0, 1114133, 0, 0, 1114134, 0, 0, 1114135, 0, 0, 1114136, 0, 0, 1114137, 0, 0, 1114138, 0, 0, 1114139, 0, 0, 1114140, 0, 0, 1114141, 0, 0)
+
+[node name="Ball" parent="." instance=ExtResource("3_7gu8y")]
+position = Vector2(64, 199)
+
+[node name="RigidPlayer" parent="." instance=ExtResource("4_xkohi")]
+position = Vector2(57, 69)
+
+[node name="RigidPlayer2" parent="." instance=ExtResource("4_xkohi")]
+position = Vector2(65, 259)
+
+[node name="Button" parent="." instance=ExtResource("5_rts3a")]
+position = Vector2(153, 125)
+connected_door_path = NodePath("../Door")
+
+[node name="Button2" parent="." instance=ExtResource("5_rts3a")]
+position = Vector2(835, 352)
+rotation = 1.5708
+scale = Vector2(1, 0.998281)
+connected_door_path = NodePath("../Door2")
+
+[node name="Button4" parent="." instance=ExtResource("5_rts3a")]
+position = Vector2(1405, 993)
+rotation = -1.5708
+scale = Vector2(1, 0.998281)
+connected_door_path = NodePath("../Door4")
+
+[node name="Button3" parent="." instance=ExtResource("5_rts3a")]
+position = Vector2(1119, 637)
+scale = Vector2(1, 0.998281)
+connected_door_path = NodePath("../Door3")
+
+[node name="Door" parent="." instance=ExtResource("6_0drpf")]
+position = Vector2(158, 309)
+
+[node name="Door3" parent="." instance=ExtResource("6_0drpf")]
+position = Vector2(1118, 840)
+rotation = 3.14159
+
+[node name="Door2" parent="." instance=ExtResource("6_0drpf")]
+position = Vector2(632, 352)
+rotation = -1.5708
+
+[node name="Door4" parent="." instance=ExtResource("6_0drpf")]
+position = Vector2(1799, 993)
+rotation = 1.5708
