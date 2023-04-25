@@ -1,14 +1,16 @@
-[gd_scene load_steps=18 format=3 uid="uid://bbhly61oyw4pk"]
+[gd_scene load_steps=20 format=3 uid="uid://bbhly61oyw4pk"]
 
 [ext_resource type="Script" path="res://Scenes/RigidPlayer.gd" id="1_s5a5p"]
+[ext_resource type="Texture2D" uid="uid://cjoccs2xvqde7" path="res://Assets/PlayerShoe.png" id="2_jptyh"]
 [ext_resource type="Texture2D" uid="uid://7vrgw2456xpl" path="res://Assets/GreenPlayerBody.png" id="2_lc3w4"]
 [ext_resource type="Script" path="res://Assets/ShadowSprite2D.gd" id="3_grnkk"]
-[ext_resource type="Texture2D" uid="uid://bhemf4jk5pns8" path="res://Assets/GreenPlayerShoe.png" id="4_m6el4"]
+[ext_resource type="Texture2D" uid="uid://bx55ugbw65bqw" path="res://Assets/PlayerBody.png" id="3_j7dnm"]
 [ext_resource type="Texture2D" uid="uid://d4h6feo8nwij6" path="res://Assets/DashProgressBack.png" id="5_8vo5f"]
+[ext_resource type="Texture2D" uid="uid://d4as3xdpkit7h" path="res://Assets/PlayerArm.png" id="5_c8p2x"]
 [ext_resource type="Texture2D" uid="uid://b8hqb3sw35pet" path="res://Assets/DashProgressFront.png" id="6_jyecc"]
-[ext_resource type="Texture2D" uid="uid://buv3vbkfm6rgn" path="res://Assets/ArrowDown.png" id="7_of70a"]
 [ext_resource type="Texture2D" uid="uid://cjkcgtrqwdksi" path="res://Assets/HasBallNoti.png" id="7_r05y4"]
-[ext_resource type="Texture2D" uid="uid://dsig3cujvn1bb" path="res://Assets/GreenArm.png" id="9_k66e4"]
+[ext_resource type="Texture2D" uid="uid://4e11tppqb4qn" path="res://Assets/ScoreProgressBack.png" id="8_gwgbt"]
+[ext_resource type="Texture2D" uid="uid://cojnhxjp0w4d1" path="res://Assets/ScoreProgressFront.png" id="9_sr6ly"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ssg0e"]
 friction = 0.0
@@ -115,6 +117,8 @@ contact_monitor = true
 can_sleep = false
 lock_rotation = true
 script = ExtResource("1_s5a5p")
+green_color = Color(0.137255, 0.913725, 0.258824, 1)
+green_color_alt = Color(0.160784, 0.666667, 0.333333, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_dbuii")
@@ -123,48 +127,43 @@ shape = SubResource("CircleShape2D_dbuii")
 
 [node name="GreenPlayerShoeRight" type="Sprite2D" parent="Rotate"]
 position = Vector2(16, 12.2593)
-texture = ExtResource("4_m6el4")
+texture = ExtResource("2_jptyh")
 
 [node name="GreenPlayerShoeLeft" type="Sprite2D" parent="Rotate"]
 position = Vector2(-13, 24)
-texture = ExtResource("4_m6el4")
+texture = ExtResource("2_jptyh")
 flip_h = true
 
 [node name="TestPlayer" type="Sprite2D" parent="Rotate"]
 z_index = 3
-position = Vector2(0, -1)
-texture = ExtResource("2_lc3w4")
-script = ExtResource("3_grnkk")
-shadow_parent_path = NodePath("../../SubViewport")
-shadow_opacity = 1.0
+position = Vector2(1, 2)
+texture = ExtResource("3_j7dnm")
 
 [node name="BallMarker" type="Marker2D" parent="Rotate"]
-position = Vector2(0, 41)
+position = Vector2(0, 42)
 
 [node name="ShoulderLeft" type="Node2D" parent="Rotate"]
-position = Vector2(-19, -3)
+position = Vector2(-22, -7)
 metadata/_edit_group_ = true
 
 [node name="Arm" type="Sprite2D" parent="Rotate/ShoulderLeft"]
-z_index = 4
+z_index = 2
 position = Vector2(-21, 0)
 rotation = 3.14159
-texture = ExtResource("9_k66e4")
+texture = ExtResource("5_c8p2x")
 script = ExtResource("3_grnkk")
-shadow_parent_path = NodePath("../../../SubViewport")
-shadow_opacity = 1.0
+shadow_opacity = 0.0
 
 [node name="ShoulderRight" type="Node2D" parent="Rotate"]
-position = Vector2(21, -3)
+position = Vector2(23, -7)
 metadata/_edit_group_ = true
 
 [node name="Arm" type="Sprite2D" parent="Rotate/ShoulderRight"]
-z_index = 4
+z_index = 2
 position = Vector2(21, 0)
-texture = ExtResource("9_k66e4")
+texture = ExtResource("5_c8p2x")
 script = ExtResource("3_grnkk")
-shadow_parent_path = NodePath("../../../SubViewport")
-shadow_opacity = 1.0
+shadow_opacity = 0.0
 
 [node name="RayCasts" type="Node2D" parent="Rotate"]
 
@@ -174,13 +173,11 @@ collision_mask = 2
 
 [node name="RayCast2D2" type="RayCast2D" parent="Rotate/RayCasts"]
 rotation = -0.349066
-scale = Vector2(1, 1)
 target_position = Vector2(0, 80)
 collision_mask = 2
 
 [node name="RayCast2D3" type="RayCast2D" parent="Rotate/RayCasts"]
 rotation = 0.349066
-scale = Vector2(1, 1)
 target_position = Vector2(0, 80)
 collision_mask = 2
 
@@ -191,18 +188,24 @@ one_shot = true
 z_index = 9
 
 [node name="SlideBar" type="TextureProgressBar" parent="UI"]
-offset_left = 23.0
-offset_top = -91.0
-offset_right = 54.0
-offset_bottom = -60.0
+offset_left = 38.0
+offset_top = -105.0
+offset_right = 73.0
+offset_bottom = -70.0
 value = 100.0
 fill_mode = 4
 texture_under = ExtResource("5_8vo5f")
 texture_progress = ExtResource("6_jyecc")
+texture_progress_offset = Vector2(2, 2)
 
-[node name="ArrowDown" type="Sprite2D" parent="UI"]
-position = Vector2(1, -76)
-texture = ExtResource("7_of70a")
+[node name="ScoreBar" type="TextureProgressBar" parent="UI"]
+offset_left = -81.0
+offset_top = -104.0
+offset_right = 26.0
+offset_bottom = -69.0
+texture_under = ExtResource("8_gwgbt")
+texture_progress = ExtResource("9_sr6ly")
+texture_progress_offset = Vector2(2, 2)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_default_blend_time = 0.1
