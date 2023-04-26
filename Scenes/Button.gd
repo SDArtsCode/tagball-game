@@ -17,4 +17,4 @@ func _process(delta):
 	else:
 		if connected_door: 
 			connected_door.active = false
-	$RigidBody2D.apply_central_impulse(-10.0 * rot_mult)
+	$RigidBody2D.apply_central_impulse(-4.0 * rot_mult)

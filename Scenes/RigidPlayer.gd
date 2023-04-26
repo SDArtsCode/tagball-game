@@ -35,6 +35,11 @@ var r_pid_i : float = 0.0
 @export_range(0, 1) var team : int = 0
 signal max_ball_time_reached(team_num)
 
+var locked : bool = false
+
+func set_locked(yes : bool):
+	locked = yes
+		
 func _ready():
 	if team == 0: # color feet, arms, torso
 		# green
@@ -113,7 +118,7 @@ func _integrate_forces(state):
 	if ball != null:
 		if score < 100:
 			score_time += state.step
-			if score_time >= 0.4:
+			if score_time >= 0.1:
 				score_time = 0.0
 				score += 1
 				$UI/ScoreBar.value = score
@@ -167,6 +172,8 @@ func _integrate_forces(state):
 		else:
 			$Rotate/ShoulderRight.rotation = lerp_angle($Rotate/ShoulderRight.rotation, PI/2.5, state.step * 3.0)
 			$Rotate/ShoulderLeft.rotation = lerp_angle($Rotate/ShoulderLeft.rotation, -PI/2.5, state.step * 3.0)
+	if locked:
+		linear_velocity = Vector2()
 		
 func _on_timer_timeout():
 	can_slide = true
@@ -177,7 +184,7 @@ func _on_ball_exit_area_body_exited(body):
 		set_collision_layer_value(2, true)
 
 func _input(event):
-	if event.device != id:
+	if event.device != id and !locked:
 		return
 	if ball and event.is_action_pressed("throw"):
 			drop_ball(Vector2(cos($Rotate.rotation + PI/2), sin($Rotate.rotation + PI/2)) * 700.0)
@@ -207,7 +214,10 @@ func _input(event):
 		sliding = false
 		can_slide = false
 		$Timer.start(SLIDE_RESET_TIME)
-
+	if event.is_action_pressed("noti"):
+		$UI/Noti.show()
+	elif event.is_action_released("noti"):
+		$UI/Noti.hide()
 
 func _on_body_entered(body):
 	$AnimationPlayer2.play("bounce")

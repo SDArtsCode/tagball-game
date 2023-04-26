@@ -9,8 +9,8 @@ enum {
 
 var state = START
 const START_TIME : int = 3 
-const PLAY_TIME : int = 120
-@onready var label := $CanvasLayer2/CenterContainer/Label
+const PLAY_TIME : int = 10
+@onready var label := $CanvasLayer/CenterContainer/Label
 @onready var dim := $CanvasLayer/DimRect
 @onready var count := $CanvasLayer/DimRect/CenterContainer2/Countdown
 enum GAME_TYPE {
@@ -45,15 +45,16 @@ func add_player(team : int, id : int):
 	player_instance.id = id
 	player_instance.global_position = spawn_points[id]
 	player_instance.connect("max_ball_time_reached", Callable(self, "player_max_ball"))
+	player_instance.set_locked(true)
 	add_child(player_instance)
 	if team == teams.GREEN:
 		green_players.append(player_instance)
 	else:
 		pink_players.append(player_instance)
 
-func end_play(winner_team : int):
+func end_play(_winner_team : int):
 	state = END
-	winner_team = player.team
+	winner_team = _winner_team
 	travel_state()
 	
 func player_max_ball(player : RigidBody2D):
@@ -108,15 +109,34 @@ func travel_state():
 		label.show()
 		dim.hide()
 		$Timer.start(PLAY_TIME)
+		for player in pink_players:
+			player.set_locked(false)
+		for player in green_players:
+			player.set_locked(false)
 	elif state == END:
 		dim.show()
 		label.hide()
-		count.text = str(teams.keys()[winner_team]) + " WINS!"
-		
+		if winner_team != -1:
+			count.text = "WINNER: " + str(teams.keys()[winner_team])
+		else:
+			count.text = "DRAW!"
+			
 func _on_timer_timeout():
 	if state == START:
 		state = PLAY
 		travel_state()
 	elif state == PLAY:
 		state = END
+		var green_score : int = 0
+		var pink_score : int = 0
+		for player in green_players:
+			green_score += player.score
+		for player in pink_players:
+			pink_score += player.score
+		if green_score > pink_score:
+			winner_team = teams.GREEN
+		elif pink_score > green_score:
+			winner_team = teams.PINK
+		else:
+			winner_team = -1
 		travel_state()

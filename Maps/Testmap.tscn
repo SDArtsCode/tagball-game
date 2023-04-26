@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dbdghbybotxqe"]
+[gd_scene load_steps=12 format=3 uid="uid://dbdghbybotxqe"]
 
 [ext_resource type="Script" path="res://Scenes/Game.gd" id="1_84hqc"]
 [ext_resource type="Texture2D" uid="uid://dnr2qbigrqmck" path="res://Assets/Tile.png" id="1_duixy"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://bnuilw8q5ukjn" path="res://Scenes/Ball.tscn" id="3_7gu8y"]
 [ext_resource type="PackedScene" uid="uid://bcftogoyybwc1" path="res://Scenes/Button.tscn" id="5_rts3a"]
 [ext_resource type="PackedScene" uid="uid://d3nbgcthr76ur" path="res://Scenes/Door.tscn" id="6_0drpf"]
-[ext_resource type="FontFile" uid="uid://do7ph628df8bj" path="res://Assets/LondrinaSolid-Light.ttf" id="7_cvdgb"]
 [ext_resource type="Texture2D" uid="uid://2stqdh4iqee2" path="res://Assets/Map1Top.png" id="8_pxajv"]
 [ext_resource type="FontFile" uid="uid://bepqayahxak1d" path="res://Assets/LondrinaSolid-Black.ttf" id="9_1nl3n"]
 
@@ -42,7 +41,7 @@ texture = ExtResource("1_duixy")
 stretch_mode = 1
 
 [node name="Ball" parent="." instance=ExtResource("3_7gu8y")]
-position = Vector2(64, 199)
+position = Vector2(954, 513)
 
 [node name="ButtonDoors" type="Node2D" parent="."]
 
@@ -261,22 +260,6 @@ metadata/_edit_lock_ = true
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 
-[node name="CanvasLayer2" type="CanvasLayer" parent="."]
-layer = 0
-
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer2"]
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 140.0
-grow_horizontal = 2
-
-[node name="Label" type="Label" parent="CanvasLayer2/CenterContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.8, 0.921569, 0.894118, 0.376471)
-theme_override_fonts/font = ExtResource("7_cvdgb")
-theme_override_font_sizes/font_size = 80
-text = "2:00"
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 11
 
@@ -309,16 +292,34 @@ theme_override_fonts/font = ExtResource("9_1nl3n")
 theme_override_font_sizes/font_size = 180
 text = "1"
 
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 156.0
+grow_horizontal = 2
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.654902, 0.862745, 0.811765, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.117647)
+theme_override_constants/shadow_offset_x = 6
+theme_override_constants/shadow_offset_y = 8
+theme_override_fonts/font = ExtResource("9_1nl3n")
+theme_override_font_sizes/font_size = 60
+text = "2:00"
+
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="S1" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(86, 76)
 
 [node name="S3" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(83, 988)
+position = Vector2(95, 991)
 
 [node name="S2" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(1795, 1008)
+position = Vector2(1810, 992)
 
 [node name="S4" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(1825, 83)
