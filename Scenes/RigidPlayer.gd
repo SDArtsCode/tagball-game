@@ -11,7 +11,7 @@ var vel := Vector2.ZERO
 var turn := Vector2.ZERO
 var can_slide : bool = true
 var sliding : bool = false
-const SLIDE_RESET_TIME : float = 3.0
+const SLIDE_RESET_TIME : float = 2.0
 var ball_in_area : RigidBody2D = null
 var ball : RigidBody2D = null
 var score_time : float = 0.0
@@ -32,10 +32,11 @@ var r_pid_i : float = 0.0
 @export_color_no_alpha var green_color_alt : Color
 @export_color_no_alpha var pink_color_alt : Color
 
-@export_range(0, 1) var team_num : int = 0
+@export_range(0, 1) var team : int = 0
+signal max_ball_time_reached(team_num)
 
 func _ready():
-	if team_num == 0: # color feet, arms, torso
+	if team == 0: # color feet, arms, torso
 		# green
 		$Rotate/GreenPlayerShoeRight.modulate = green_color_alt
 		$Rotate/GreenPlayerShoeLeft.modulate = green_color_alt
@@ -43,14 +44,14 @@ func _ready():
 		$Rotate/ShoulderRight/Arm.modulate = green_color
 		$Rotate/TestPlayer.modulate = green_color
 		pass
-	elif team_num == 1:
+	elif team == 1:
 		# pink
 		$Rotate/GreenPlayerShoeRight.modulate = pink_color_alt
 		$Rotate/GreenPlayerShoeLeft.modulate = pink_color_alt
 		$Rotate/ShoulderLeft/Arm.modulate = pink_color
 		$Rotate/ShoulderRight/Arm.modulate = pink_color
 		$Rotate/TestPlayer.modulate = pink_color
-	elif team_num == 2:
+	elif team == 2:
 		pass
 	else:
 		pass
@@ -88,7 +89,8 @@ func _integrate_forces(state):
 	if !can_slide:
 		$UI/SlideBar.value = 100 - int(100 * ($Timer.time_left / SLIDE_RESET_TIME))
 		
-	if Input.is_joy_button_pressed(id, JOY_BUTTON_LEFT_STICK) and sliding:
+	if Input.is_joy_button_pressed(id, JOY_BUTTON_RIGHT_SHOULDER) and sliding:
+		print("YES")
 		linear_velocity.x = lerp(linear_velocity.x, 0.0, state.step * 0.6)
 		linear_velocity.y = lerp(linear_velocity.y, 0.0, state.step * 0.6)
 	else:
@@ -105,12 +107,16 @@ func _integrate_forces(state):
 			$Rotate.rotation = lerp_angle($Rotate.rotation, atan2(dir.y, dir.x) - PI/2, state.step*8.0)
 	
 	if ball != null:
-		score_time += state.step
-		if score_time > 1.0:
-			score +=1
-			$UI/ScoreBar.value = score
-		if score == 100:
-			print("PLAYER WINS")
+		if score < 100:
+			score_time += state.step
+			if score_time >= 0.4:
+				score_time = 0.0
+				score += 1
+				$UI/ScoreBar.value = score
+				$UI/Label.text = str(score) + "/100"
+			if score >= 100:
+				emit_signal("max_ball_time_reached", self)
+				print("PLAYER WINS")
 		var total_error = ($Rotate/BallMarker.global_position - ball.global_position)
 		var total_pid = Vector2()
 		b_error = total_error.x
@@ -182,9 +188,9 @@ func _input(event):
 			set_collision_layer_value(2, false)
 	if event.is_action_pressed("slide") and can_slide and linear_velocity.length() > 50.0:
 		sliding = true
-		linear_velocity *= 2.8
+		linear_velocity *= 3.0
 		$UI/SlideBar.value = 0
-	if event.is_action_pressed("slide") and sliding:
+	if event.is_action_released("slide") and sliding:
 		sliding = false
 		can_slide = false
 		$Timer.start(SLIDE_RESET_TIME)

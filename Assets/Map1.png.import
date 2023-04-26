@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cjkcgtrqwdksi"
-path="res://.godot/imported/HasBallNoti.png-00903a41a4647a3735fdd2a2300d4316.ctex"
+uid="uid://b2df1igix14e2"
+path="res://.godot/imported/Map1.png-efbb85b1f9e32c4618aaaedbeba43c27.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/HasBallNoti.png"
-dest_files=["res://.godot/imported/HasBallNoti.png-00903a41a4647a3735fdd2a2300d4316.ctex"]
+source_file="res://Assets/Map1.png"
+dest_files=["res://.godot/imported/Map1.png-efbb85b1f9e32c4618aaaedbeba43c27.ctex"]
 
 [params]
 
