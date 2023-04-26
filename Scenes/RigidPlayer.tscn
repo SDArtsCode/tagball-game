@@ -1,17 +1,18 @@
-[gd_scene load_steps=20 format=3 uid="uid://bbhly61oyw4pk"]
+[gd_scene load_steps=29 format=3 uid="uid://bbhly61oyw4pk"]
 
 [ext_resource type="Script" path="res://Scenes/RigidPlayer.gd" id="1_s5a5p"]
-[ext_resource type="Texture2D" uid="uid://cjoccs2xvqde7" path="res://Assets/PlayerShoe.png" id="2_jptyh"]
-[ext_resource type="Texture2D" uid="uid://bpxf88nn0h1ai" path="res://Assets/PlayerHead.png" id="2_xkpt6"]
+[ext_resource type="Texture2D" uid="uid://bg1dwi8inxlkc" path="res://Assets/PlayerShoe.png" id="2_jptyh"]
+[ext_resource type="Texture2D" uid="uid://kyabvquris3h" path="res://Assets/PlayerHead.png" id="2_xkpt6"]
 [ext_resource type="Texture2D" uid="uid://bx55ugbw65bqw" path="res://Assets/PlayerBody.png" id="3_j7dnm"]
-[ext_resource type="Texture2D" uid="uid://d4h6feo8nwij6" path="res://Assets/DashProgressBack.png" id="5_8vo5f"]
+[ext_resource type="Texture2D" uid="uid://cp0asl828nrcx" path="res://Assets/DashProgressBack.png" id="5_8vo5f"]
 [ext_resource type="Texture2D" uid="uid://d4as3xdpkit7h" path="res://Assets/PlayerArm.png" id="5_c8p2x"]
 [ext_resource type="Texture2D" uid="uid://cw1j23gss474v" path="res://Assets/PlayerHand.png" id="6_i662t"]
 [ext_resource type="Texture2D" uid="uid://b8hqb3sw35pet" path="res://Assets/DashProgressFront.png" id="6_jyecc"]
 [ext_resource type="Texture2D" uid="uid://cjkcgtrqwdksi" path="res://Assets/HasBallNoti.png" id="7_r05y4"]
-[ext_resource type="Texture2D" uid="uid://4e11tppqb4qn" path="res://Assets/ScoreProgressBack.png" id="8_gwgbt"]
-[ext_resource type="Texture2D" uid="uid://cojnhxjp0w4d1" path="res://Assets/ScoreProgressFront.png" id="9_sr6ly"]
+[ext_resource type="Texture2D" uid="uid://b0igqbskwh2m7" path="res://Assets/ScoreProgressBack.png" id="8_gwgbt"]
+[ext_resource type="Texture2D" uid="uid://twyaw4bj08r7" path="res://Assets/ScoreProgressFront.png" id="9_sr6ly"]
 [ext_resource type="FontFile" uid="uid://6owilq3ry6et" path="res://Assets/Inter-VariableFont_slnt,wght.ttf" id="11_vkhab"]
+[ext_resource type="Texture2D" uid="uid://blw5djcac0nnd" path="res://Assets/ParticleCircle.png" id="13_jyw2c"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ssg0e"]
 friction = 0.0
@@ -63,9 +64,6 @@ tracks/1/keys = {
 "values": [Vector2(-15, 12)]
 }
 
-[sub_resource type="Animation" id="Animation_i7y5s"]
-resource_name = "shuffle"
-
 [sub_resource type="Animation" id="Animation_bsplw"]
 resource_name = "walking"
 length = 0.4
@@ -80,7 +78,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.3, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(16, 10), Vector2(16, -21), Vector2(16, 24), Vector2(16, 10)]
+"values": [Vector2(16, 10), Vector2(16, -21), Vector2(16, 36), Vector2(16, 10)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -92,15 +90,113 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.3, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(-15, 12), Vector2(-15, 24), Vector2(-15, -21), Vector2(-15, 12)]
+"values": [Vector2(-15, 12), Vector2(-15, 36), Vector2(-15, -21), Vector2(-15, 12)]
+}
+
+[sub_resource type="Animation" id="Animation_i7y5s"]
+resource_name = "sliding"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rotate/GreenPlayerShoeRight:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(16, 22)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Rotate/GreenPlayerShoeLeft:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-15, 42)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_esbi3"]
 _data = {
 "RESET": SubResource("Animation_lf7sn"),
 "idle": SubResource("Animation_lko7p"),
-"shuffle": SubResource("Animation_i7y5s"),
+"sliding": SubResource("Animation_i7y5s"),
 "walking": SubResource("Animation_bsplw")
+}
+
+[sub_resource type="Curve" id="Curve_7d6pn"]
+_data = [Vector2(0, 1), 0.0, -2.71515, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_7d8pl"]
+curve = SubResource("Curve_7d6pn")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cut37"]
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.0
+scale_curve = SubResource("CurveTexture_7d8pl")
+
+[sub_resource type="Curve" id="Curve_jqbof"]
+_data = [Vector2(0, 1), 0.0, -2.16364, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_k72mx"]
+curve = SubResource("Curve_jqbof")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_moxhe"]
+emission_shape = 1
+emission_sphere_radius = 5.0
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.0
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_k72mx")
+
+[sub_resource type="Animation" id="Animation_owauy"]
+resource_name = "bounce"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rotate/TestPlayer:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.2),
+"transitions": PackedFloat32Array(0.217637, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.3, 0.9), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Rotate/PlayerHead:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, -5), Vector2(1, -11), Vector2(1, -5)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7i5hn"]
+_data = {
+"bounce": SubResource("Animation_owauy")
 }
 
 [node name="RigidPlayer" type="RigidBody2D"]
@@ -131,7 +227,7 @@ position = Vector2(1, -5)
 texture = ExtResource("2_xkpt6")
 
 [node name="GreenPlayerShoeRight" type="Sprite2D" parent="Rotate"]
-position = Vector2(16, 12.2593)
+position = Vector2(16, -21)
 texture = ExtResource("2_jptyh")
 
 [node name="GreenPlayerShoeLeft" type="Sprite2D" parent="Rotate"]
@@ -233,7 +329,6 @@ vertical_alignment = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_default_blend_time = 0.1
-speed_scale = 1.2
 libraries = {
 "": SubResource("AnimationLibrary_esbi3")
 }
@@ -249,5 +344,25 @@ shape = SubResource("CircleShape2D_dbuii")
 visible = false
 texture = ExtResource("7_r05y4")
 
+[node name="MoveParticles" type="GPUParticles2D" parent="."]
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_cut37")
+texture = ExtResource("13_jyw2c")
+
+[node name="SlideParticles" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_moxhe")
+texture = ExtResource("13_jyw2c")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.8
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_7i5hn")
+}
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="body_exited" from="BallExitArea" to="." method="_on_ball_exit_area_body_exited"]

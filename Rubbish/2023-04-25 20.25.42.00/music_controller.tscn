@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://bj8rfhpnlkw5l"]
+
+[ext_resource type="AudioStream" uid="uid://nbr3smr3dqot" path="res://Assets/Audio/TagballIntro1.ogg" id="1_lj37x"]
+
+[node name="MusicController" type="Node"]
+
+[node name="Intro" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_lj37x")
+max_polyphony = 3
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+max_polyphony = 3
+
+[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="."]
+max_polyphony = 3
+
+[node name="AudioStreamPlayer4" type="AudioStreamPlayer" parent="."]
+max_polyphony = 3
+
+[node name="AudioStreamPlayer5" type="AudioStreamPlayer" parent="."]
+max_polyphony = 3
+
+[node name="AudioStreamPlayer6" type="AudioStreamPlayer" parent="."]
+max_polyphony = 3
+
+[node name="AudioStreamPlayer7" type="AudioStreamPlayer" parent="."]
+max_polyphony = 3

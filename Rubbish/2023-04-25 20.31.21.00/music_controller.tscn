@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=3 uid="uid://bj8rfhpnlkw5l"]
+
+[ext_resource type="AudioStream" uid="uid://nbr3smr3dqot" path="res://Assets/Audio/TagballIntro1.ogg" id="1_lj37x"]
+[ext_resource type="AudioStream" uid="uid://bnybmexih2yg0" path="res://Assets/Audio/TagballTeam1-INTRO.ogg" id="2_2ov67"]
+[ext_resource type="AudioStream" uid="uid://byvew2q64vhtl" path="res://Assets/Audio/TagballTeam1-ambi.ogg" id="3_vh8g3"]
+[ext_resource type="AudioStream" uid="uid://2gwtvuyscrcm" path="res://Assets/Audio/TagballTeam1-BASS.ogg" id="4_6rdiy"]
+[ext_resource type="AudioStream" uid="uid://bqs24d3pm5rj7" path="res://Assets/Audio/TagballTeam1-Chord.ogg" id="5_fshw0"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_17us7"]
+streams_count = 3
+stream_0/stream = ExtResource("3_vh8g3")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("4_6rdiy")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("5_fshw0")
+stream_2/weight = 1.0
+
+[node name="MusicController" type="Node"]
+
+[node name="Intro" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_lj37x")
+max_polyphony = 3
+
+[node name="Transition" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_2ov67")
+max_polyphony = 3
+
+[node name="Team1" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_17us7")
+autoplay = true
+max_polyphony = 3
+
+[node name="Team2" type="AudioStreamPlayer" parent="."]
+max_polyphony = 3
+
+[node name="TeamAlt" type="AudioStreamPlayer" parent="."]
+max_polyphony = 3

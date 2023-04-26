@@ -10,7 +10,7 @@ enum {
 var state = START
 const START_TIME : int = 3 
 const PLAY_TIME : int = 120
-@onready var label := $CanvasLayer/CenterContainer/Label
+@onready var label := $CanvasLayer2/CenterContainer/Label
 @onready var dim := $CanvasLayer/DimRect
 @onready var count := $CanvasLayer/DimRect/CenterContainer2/Countdown
 enum GAME_TYPE {
@@ -111,7 +111,7 @@ func travel_state():
 	elif state == END:
 		dim.show()
 		label.hide()
-		count.text = "WINNER: " + str(teams.keys()[winner_team])
+		count.text = str(teams.keys()[winner_team]) + " WINS!"
 		
 func _on_timer_timeout():
 	if state == START:

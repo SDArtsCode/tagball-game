@@ -2,7 +2,7 @@
 
 importer="oggvorbisstr"
 type="AudioStreamOggVorbis"
-uid="uid://byvew2q64vhtl"
+uid="uid://cjobhbe4504y2"
 path="res://.godot/imported/TagballTeam1-ambi.ogg-3dc9a10646872b3f3fc713cdfb55d551.oggvorbisstr"
 
 [deps]
@@ -12,8 +12,8 @@ dest_files=["res://.godot/imported/TagballTeam1-ambi.ogg-3dc9a10646872b3f3fc713c
 
 [params]
 
-loop=true
-loop_offset=0
-bpm=0
+loop=false
+loop_offset=0.0
+bpm=150.0
 beat_count=0
 bar_beats=4

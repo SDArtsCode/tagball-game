@@ -1,27 +1,37 @@
-[gd_scene load_steps=2 format=3 uid="uid://bj8rfhpnlkw5l"]
+[gd_scene load_steps=7 format=3 uid="uid://bj8rfhpnlkw5l"]
 
 [ext_resource type="AudioStream" uid="uid://nbr3smr3dqot" path="res://Assets/Audio/TagballIntro1.ogg" id="1_lj37x"]
+[ext_resource type="Script" path="res://music_controller.gd" id="1_nyth6"]
+[ext_resource type="AudioStream" uid="uid://bnybmexih2yg0" path="res://Assets/Audio/TagballTeam1-INTRO.ogg" id="2_2ov67"]
+[ext_resource type="AudioStream" uid="uid://cjobhbe4504y2" path="res://Assets/Audio/TagballTeam1-ambi.ogg" id="3_vh8g3"]
+[ext_resource type="AudioStream" uid="uid://6leyl4tl0k2n" path="res://Assets/Audio/TagballTeam1-BASS.ogg" id="4_6rdiy"]
+[ext_resource type="AudioStream" uid="uid://cnaofrw0yr1gx" path="res://Assets/Audio/TagballTeam1-Chord.ogg" id="5_fshw0"]
 
 [node name="MusicController" type="Node"]
+script = ExtResource("1_nyth6")
 
 [node name="Intro" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("1_lj37x")
 max_polyphony = 3
 
-[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+[node name="Transition" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_2ov67")
 max_polyphony = 3
 
-[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="."]
+[node name="Team1-1" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_vh8g3")
 max_polyphony = 3
 
-[node name="AudioStreamPlayer4" type="AudioStreamPlayer" parent="."]
+[node name="Team1-2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_6rdiy")
 max_polyphony = 3
 
-[node name="AudioStreamPlayer5" type="AudioStreamPlayer" parent="."]
+[node name="Team1-3" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_fshw0")
 max_polyphony = 3
 
-[node name="AudioStreamPlayer6" type="AudioStreamPlayer" parent="."]
+[node name="Team2" type="AudioStreamPlayer" parent="."]
 max_polyphony = 3
 
-[node name="AudioStreamPlayer7" type="AudioStreamPlayer" parent="."]
+[node name="TeamAlt" type="AudioStreamPlayer" parent="."]
 max_polyphony = 3

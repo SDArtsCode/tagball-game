@@ -90,13 +90,17 @@ func _integrate_forces(state):
 		$UI/SlideBar.value = 100 - int(100 * ($Timer.time_left / SLIDE_RESET_TIME))
 		
 	if Input.is_joy_button_pressed(id, JOY_BUTTON_RIGHT_SHOULDER) and sliding:
+		$AnimationPlayer.play("sliding")
+		$MoveParticles.emitting = false
 		print("YES")
 		linear_velocity.x = lerp(linear_velocity.x, 0.0, state.step * 0.6)
 		linear_velocity.y = lerp(linear_velocity.y, 0.0, state.step * 0.6)
 	else:
 		if linear_velocity.length() > 50.0:
+			$MoveParticles.emitting = true
 			$AnimationPlayer.play("walking")
 		else:
+			$MoveParticles.emitting = false
 			$AnimationPlayer.play("idle")
 
 		if dir.length() > 1.0:
@@ -144,8 +148,8 @@ func _integrate_forces(state):
 		r_prev_error = r_error
 		ball.apply_central_impulse(total_pid)
 		$HasBallNoti.rotation += state.step * 0.5 * PI * 2
-		$Rotate/ShoulderLeft.visible = true
-		$Rotate/ShoulderRight.visible = true
+		#$Rotate/ShoulderLeft.visible = true
+		#$Rotate/ShoulderRight.visible = true
 		var left_error = (ball.global_position + Vector2(-25.0, 0.0).rotated($Rotate.rotation) - $Rotate/ShoulderLeft.global_position)
 		$Rotate/ShoulderLeft.global_rotation = atan2(left_error.y, left_error.x) - PI
 		var right_error = (ball.global_position + Vector2(25.0, 0.0).rotated($Rotate.rotation) - $Rotate/ShoulderRight.global_position)
@@ -155,8 +159,15 @@ func _integrate_forces(state):
 			drop_ball()
 	else:
 		score_time = 0.0
-		$Rotate/ShoulderLeft.visible = false
-		$Rotate/ShoulderRight.visible = false
+		#$Rotate/ShoulderLeft.visible = false
+		#$Rotate/ShoulderRight.visible = false
+		if sliding:
+			$Rotate/ShoulderRight.rotation = lerp_angle($Rotate/ShoulderRight.rotation, -PI/3, state.step * 8.0)
+			$Rotate/ShoulderLeft.rotation = lerp_angle($Rotate/ShoulderLeft.rotation, PI/3, state.step * 8.0)
+		else:
+			$Rotate/ShoulderRight.rotation = lerp_angle($Rotate/ShoulderRight.rotation, PI/2.5, state.step * 3.0)
+			$Rotate/ShoulderLeft.rotation = lerp_angle($Rotate/ShoulderLeft.rotation, -PI/2.5, state.step * 3.0)
+		
 func _on_timer_timeout():
 	can_slide = true
 
@@ -187,6 +198,8 @@ func _input(event):
 			set_collision_mask_value(2, false)
 			set_collision_layer_value(2, false)
 	if event.is_action_pressed("slide") and can_slide and linear_velocity.length() > 50.0:
+		$SlideParticles.restart()
+		$SlideParticles.emitting = true
 		sliding = true
 		linear_velocity *= 3.0
 		$UI/SlideBar.value = 0
@@ -194,3 +207,7 @@ func _input(event):
 		sliding = false
 		can_slide = false
 		$Timer.start(SLIDE_RESET_TIME)
+
+
+func _on_body_entered(body):
+	$AnimationPlayer2.play("bounce")

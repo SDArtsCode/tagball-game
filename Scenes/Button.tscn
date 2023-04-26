@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://bcftogoyybwc1"]
 
 [ext_resource type="Script" path="res://Scenes/Button.gd" id="1_atud8"]
-[ext_resource type="Texture2D" uid="uid://dm6y82duoy0a3" path="res://Assets/ButtonBase.png" id="2_nmred"]
-[ext_resource type="Texture2D" uid="uid://kqfbfamuy0bk" path="res://Assets/ButtonRed.png" id="3_wx443"]
+[ext_resource type="Texture2D" uid="uid://dwoblafnibevj" path="res://Assets/ButtonBase.png" id="2_nmred"]
+[ext_resource type="Texture2D" uid="uid://biuatuw3qocyy" path="res://Assets/Button.png" id="4_b011t"]
 [ext_resource type="Script" path="res://Assets/ShadowSprite2D.gd" id="4_k4wyu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0ixrb"]
@@ -24,6 +24,9 @@ metadata/_edit_group_ = true
 
 [node name="ButtonBase" type="Sprite2D" parent="StaticBody2D"]
 texture = ExtResource("2_nmred")
+script = ExtResource("4_k4wyu")
+shadow_offset = Vector2(5, 5)
+shadow_opacity = 0.1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 shape = SubResource("RectangleShape2D_0ixrb")
@@ -40,8 +43,8 @@ lock_rotation = true
 
 [node name="ButtonRed" type="Sprite2D" parent="RigidBody2D"]
 z_index = -2
-position = Vector2(0, -3.541)
-texture = ExtResource("3_wx443")
+position = Vector2(0, -4)
+texture = ExtResource("4_b011t")
 script = ExtResource("4_k4wyu")
 shadow_offset = Vector2(5, 5)
 shadow_opacity = 0.1
