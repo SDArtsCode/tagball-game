@@ -16,9 +16,9 @@ dest_files=["res://.godot/imported/Ball4.png-11ddb40fff92ead5bdd894f16e7f9d08.ct
 [params]
 
 compress/mode=0
-compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
+compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=false

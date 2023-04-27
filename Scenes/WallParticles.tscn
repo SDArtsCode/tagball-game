@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://bmn2bx2f76vhd"]
+
+[node name="WallParticles" type="CPUParticles2D"]

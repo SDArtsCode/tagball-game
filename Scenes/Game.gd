@@ -8,8 +8,8 @@ enum {
 }
 
 var state = START
-const START_TIME : int = 3 
-const PLAY_TIME : int = 10
+const START_TIME : int = 5
+const PLAY_TIME : int = 150
 @onready var label := $CanvasLayer/CenterContainer/Label
 @onready var dim := $CanvasLayer/DimRect
 @onready var count := $CanvasLayer/DimRect/CenterContainer2/Countdown

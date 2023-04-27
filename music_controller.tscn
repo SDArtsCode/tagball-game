@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bj8rfhpnlkw5l"]
+[gd_scene load_steps=9 format=3 uid="uid://bj8rfhpnlkw5l"]
 
 [ext_resource type="AudioStream" uid="uid://nbr3smr3dqot" path="res://Assets/Audio/TagballIntro1.ogg" id="1_lj37x"]
 [ext_resource type="Script" path="res://music_controller.gd" id="1_nyth6"]
@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://cjobhbe4504y2" path="res://Assets/Audio/TagballTeam1-ambi.ogg" id="3_vh8g3"]
 [ext_resource type="AudioStream" uid="uid://6leyl4tl0k2n" path="res://Assets/Audio/TagballTeam1-BASS.ogg" id="4_6rdiy"]
 [ext_resource type="AudioStream" uid="uid://cnaofrw0yr1gx" path="res://Assets/Audio/TagballTeam1-Chord.ogg" id="5_fshw0"]
+[ext_resource type="AudioStream" uid="uid://do1nykmkca8xs" path="res://Assets/Audio/TagballTeam2.ogg" id="7_kncig"]
 [ext_resource type="AudioStream" uid="uid://dbf4wnkl4uksd" path="res://Assets/Audio/TagballAlt.ogg" id="7_ndq2f"]
 
 [node name="MusicController" type="Node"]
@@ -22,29 +23,26 @@ volume_db = -80.0
 autoplay = true
 max_polyphony = 3
 
-[node name="Team1-1" type="AudioStreamPlayer" parent="."]
+[node name="Team11" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_vh8g3")
-volume_db = -80.0
-autoplay = true
 max_polyphony = 3
 
-[node name="Team1-2" type="AudioStreamPlayer" parent="."]
+[node name="Team12" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_6rdiy")
-volume_db = -80.0
-autoplay = true
 max_polyphony = 3
 
-[node name="Team1-3" type="AudioStreamPlayer" parent="."]
+[node name="Team13" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_fshw0")
-volume_db = -80.0
-autoplay = true
 max_polyphony = 3
 
 [node name="Team2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_kncig")
 volume_db = -80.0
+autoplay = true
 max_polyphony = 3
 
 [node name="TeamAlt" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_ndq2f")
 volume_db = -80.0
+autoplay = true
 max_polyphony = 3

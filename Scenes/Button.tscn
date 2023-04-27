@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scenes/Button.gd" id="1_atud8"]
 [ext_resource type="Texture2D" uid="uid://dwoblafnibevj" path="res://Assets/ButtonBase.png" id="2_nmred"]
-[ext_resource type="Texture2D" uid="uid://biuatuw3qocyy" path="res://Assets/Button.png" id="4_b011t"]
+[ext_resource type="Texture2D" uid="uid://cmdbo2wh8boig" path="res://Assets/Button.png" id="4_b011t"]
 [ext_resource type="Script" path="res://Assets/ShadowSprite2D.gd" id="4_k4wyu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0ixrb"]

@@ -1,25 +1,30 @@
 extends RigidBody2D
 
 @export var id := 0
-const MOVE_DEADZONE := 0.2
-const TURN_DEADZONE := 0.2
 
-const MAX_SPEED = 200.0
-const ACCEL = 7.0
+const MOVE_DEADZONE := 0.2 #ignore
+const TURN_DEADZONE := 0.2 #ignore
+const MAX_SPEED = 200.0 # walking
+const ACCEL = 7.0 # walking accel
+const SLIDE_RESET_TIME : float = 2.0 # how much time until can slide again
+const SLIDE_SPEED_MULT : float = 3.7 # when pressing slide, how much is the current vel multipled by
+const SCORE_PER_TIME : float = 0.5 # 1 score is given in this amount of time (seconds)
+const THROW_FORCE : float = 800.0 
 
 var vel := Vector2.ZERO
 var turn := Vector2.ZERO
 var can_slide : bool = true
 var sliding : bool = false
-const SLIDE_RESET_TIME : float = 2.0
 var ball_in_area : RigidBody2D = null
 var ball : RigidBody2D = null
 var score_time : float = 0.0
 var score : int = 0 
 
+# PID constants
 var kp : float = 1.0
 var ki : float = 0.05
 var kd : float = 1.1
+# ignore extra PID variables
 var b_error : float = 0.0
 var b_prev_error : float = 0.0
 var b_pid_i : float = 0.0
@@ -36,11 +41,14 @@ var r_pid_i : float = 0.0
 signal max_ball_time_reached(team_num)
 
 var locked : bool = false
+var id_colors = [Color("FF0000"), Color("00D1FF"), Color("14FF00"), Color("FFC700")]
+var wall_particles = preload("res://Scenes/WallParticles.tscn")
 
 func set_locked(yes : bool):
 	locked = yes
 		
 func _ready():
+	$UI/Noti.modulate = id_colors[id]
 	if team == 0: # color feet, arms, torso
 		# green
 		$Rotate/GreenPlayerShoeRight.modulate = green_color_alt
@@ -76,8 +84,10 @@ func drop_ball(force : Vector2 = Vector2()):
 	ball.set_in_hands(null)
 	ball = null
 	$HasBallNoti.visible = false
-	
+
 func _integrate_forces(state):
+	# music stuff
+	# /music
 	var dir := Vector2.ZERO
 	
 	#dir.x = sign(Input.get_joy_axis(id, JOY_AXIS_LEFT_X)) * clamp(Input.get_joy_axis(id, JOY_AXIS_LEFT_X), 0.2, 1.0)
@@ -118,7 +128,7 @@ func _integrate_forces(state):
 	if ball != null:
 		if score < 100:
 			score_time += state.step
-			if score_time >= 0.1:
+			if score_time >= SCORE_PER_TIME:
 				score_time = 0.0
 				score += 1
 				$UI/ScoreBar.value = score
@@ -187,7 +197,7 @@ func _input(event):
 	if event.device != id and !locked:
 		return
 	if ball and event.is_action_pressed("throw"):
-			drop_ball(Vector2(cos($Rotate.rotation + PI/2), sin($Rotate.rotation + PI/2)) * 700.0)
+			drop_ball(Vector2(cos($Rotate.rotation + PI/2), sin($Rotate.rotation + PI/2)) * THROW_FORCE)
 
 	if event.is_action_pressed("pickup"):
 		ball_in_area = null
@@ -197,18 +207,28 @@ func _input(event):
 					ball_in_area = child.get_collider()
 					break
 		if ball: # drop ball
+			MusicController.drop()
 			drop_ball()
 		elif ball_in_area:
 			ball = ball_in_area
 			ball.set_in_hands(self)
+			$AnimationPlayer3.play("bounce")
 			$HasBallNoti.visible = true
 			set_collision_mask_value(2, false)
 			set_collision_layer_value(2, false)
+			if Global.first_time: Global.first_time = false
+			elif Global.last_picked != team:
+				Global.last_picked = team
+				MusicController.switch_team()
+				
+			elif Global.last_picked == team:
+				MusicController.phase = MusicController.mem
+			
 	if event.is_action_pressed("slide") and can_slide and linear_velocity.length() > 50.0:
 		$SlideParticles.restart()
 		$SlideParticles.emitting = true
 		sliding = true
-		linear_velocity *= 3.0
+		linear_velocity *= SLIDE_SPEED_MULT
 		$UI/SlideBar.value = 0
 	if event.is_action_released("slide") and sliding:
 		sliding = false
@@ -216,8 +236,15 @@ func _input(event):
 		$Timer.start(SLIDE_RESET_TIME)
 	if event.is_action_pressed("noti"):
 		$UI/Noti.show()
+		$AnimationPlayer4.play("bounce")
 	elif event.is_action_released("noti"):
 		$UI/Noti.hide()
+	
+	if event.is_action_pressed("debug") and id == 0:
+		team = 0
 
 func _on_body_entered(body):
 	$AnimationPlayer2.play("bounce")
+	#$WallParticles.restart()
+	#$WallParticles.emitting = true
+

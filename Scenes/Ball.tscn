@@ -1,11 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://bnuilw8q5ukjn"]
+[gd_scene load_steps=9 format=3 uid="uid://bnuilw8q5ukjn"]
 
 [ext_resource type="Script" path="res://Scenes/Ball.gd" id="1_2vjhk"]
 [ext_resource type="Texture2D" uid="uid://cua0li067ppus" path="res://Assets/Ball.png" id="1_ofll4"]
 [ext_resource type="Script" path="res://Assets/ShadowSprite2D.gd" id="3_h5was"]
-[ext_resource type="Texture2D" uid="uid://nlh61pusy15" path="res://Assets/Ball3.png" id="4_2lkjf"]
-[ext_resource type="Texture2D" uid="uid://bcwhxbxf6r7d0" path="res://Assets/Ball1.png" id="5_t3sxm"]
-[ext_resource type="Texture2D" uid="uid://bqcikl84pcjl8" path="res://Assets/Ball2.png" id="6_q4n61"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_7tsfr"]
 friction = 0.0
@@ -14,33 +11,30 @@ bounce = 0.1
 [sub_resource type="CircleShape2D" id="CircleShape2D_mrgo7"]
 radius = 25.0
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_710np"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("5_t3sxm")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("4_2lkjf")
-}, {
-"duration": 1.0,
-"texture": ExtResource("5_t3sxm")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_2lkjf")
-}, {
-"duration": 1.0,
-"texture": ExtResource("6_q4n61")
-}],
-"loop": true,
-"name": &"moving",
-"speed": 5.0
-}]
+[sub_resource type="CircleShape2D" id="CircleShape2D_6rpxk"]
+radius = 511.063
+
+[sub_resource type="Animation" id="Animation_50yse"]
+resource_name = "bounce"
+length = 0.15
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0001, 0.05, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1), Vector2(1.195, 1.195), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_y0esd"]
+_data = {
+"bounce": SubResource("Animation_50yse")
+}
 
 [node name="Ball" type="RigidBody2D" groups=["ball"]]
 collision_layer = 2
@@ -62,9 +56,15 @@ shadow_opacity = 0.1
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_mrgo7")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="MusicQueue" type="Area2D" parent="."]
 visible = false
-scale = Vector2(1.354, 1.354)
-sprite_frames = SubResource("SpriteFrames_710np")
-animation = &"idle"
-frame_progress = 0.54423
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MusicQueue"]
+shape = SubResource("CircleShape2D_6rpxk")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_y0esd")
+}
+
+[connection signal="body_entered" from="MusicQueue" to="." method="_on_music_queue_body_entered"]
