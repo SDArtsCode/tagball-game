@@ -1,0 +1,59 @@
+[gd_scene load_steps=7 format=3 uid="uid://bcftogoyybwc1"]
+
+[ext_resource type="Script" path="res://Scenes/Button.gd" id="1_atud8"]
+[ext_resource type="Texture2D" uid="uid://dm6y82duoy0a3" path="res://Assets/ButtonBase.png" id="2_nmred"]
+[ext_resource type="Texture2D" uid="uid://cmdbo2wh8boig" path="res://Assets/Button.png" id="4_b011t"]
+[ext_resource type="Script" path="res://Assets/ShadowSprite2D.gd" id="4_k4wyu"]
+[ext_resource type="AudioStream" uid="uid://rs0nntv7gin8" path="res://Assets/Audio/Tagball-Throw.wav" id="5_4iq5g"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0ixrb"]
+size = Vector2(40, 4)
+
+[node name="Button" type="Node2D"]
+script = ExtResource("1_atud8")
+
+[node name="GrooveJoint2D" type="GrooveJoint2D" parent="."]
+position = Vector2(0, -17)
+node_a = NodePath("../StaticBody2D")
+node_b = NodePath("../RigidBody2D")
+length = 25.0
+initial_offset = 1.0
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, -3)
+metadata/_edit_group_ = true
+
+[node name="ButtonBase" type="Sprite2D" parent="StaticBody2D"]
+texture = ExtResource("2_nmred")
+script = ExtResource("4_k4wyu")
+shadow_offset = Vector2(5, 5)
+shadow_opacity = 0.1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_0ixrb")
+disabled = true
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+position = Vector2(0, -16)
+collision_layer = 8
+collision_mask = 8
+gravity_scale = 0.0
+continuous_cd = 2
+can_sleep = false
+lock_rotation = true
+
+[node name="ButtonRed" type="Sprite2D" parent="RigidBody2D"]
+z_index = -2
+position = Vector2(0, -4)
+texture = ExtResource("4_b011t")
+script = ExtResource("4_k4wyu")
+shadow_offset = Vector2(5, 5)
+shadow_opacity = 0.1
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="RigidBody2D"]
+position = Vector2(0.200001, -2.4)
+polygon = PackedVector2Array(15.8, 12.4, 2.8, -14.6, -2.2, -14.6, -16.2, 12.4)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_4iq5g")
+pitch_scale = 0.3
